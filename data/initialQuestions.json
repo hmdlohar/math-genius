@@ -1,0 +1,82 @@
+[
+    {
+        "question": "What is 347 + 589?",
+        "answer": "936"
+    },
+    {
+        "question": "Solve for x: 3x + 7 = 22",
+        "answer": "5"
+    },
+    {
+        "question": "What is 15% of 400?",
+        "answer": "60"
+    },
+    {
+        "question": "If a triangle has angles measuring 45° and 60°, what is the measure of the third angle?",
+        "answer": "75"
+    },
+    {
+        "question": "What is the square root of 144?",
+        "answer": "12"
+    },
+    {
+        "question": "What is 23 × 17?",
+        "answer": "391"
+    },
+    {
+        "question": "Simplify: (4 × 6) + (7 × 3)",
+        "answer": "45"
+    },
+    {
+        "question": "What is 728 ÷ 8?",
+        "answer": "91"
+    },
+    {
+        "question": "Find the perimeter of a rectangle with length 12 and width 7",
+        "answer": "38"
+    },
+    {
+        "question": "What is 2³ × 2⁴?",
+        "answer": "128"
+    },
+    {
+        "question": "If x = 5 and y = 3, what is 2x + 3y?",
+        "answer": "19"
+    },
+    {
+        "question": "What is the area of a circle with radius 5? (Use π = 3.14)",
+        "answer": "78.5"
+    },
+    {
+        "question": "What is 40% of 250?",
+        "answer": "100"
+    },
+    {
+        "question": "Solve: 5x = 125",
+        "answer": "25"
+    },
+    {
+        "question": "What is the sum of the first 10 natural numbers?",
+        "answer": "55"
+    },
+    {
+        "question": "What is 17 + 28 + 35?",
+        "answer": "80"
+    },
+    {
+        "question": "Find the value of x: 2x - 8 = 16",
+        "answer": "12"
+    },
+    {
+        "question": "What is 75% of 160?",
+        "answer": "120"
+    },
+    {
+        "question": "If a square has a perimeter of 36, what is its area?",
+        "answer": "81"
+    },
+    {
+        "question": "What is 13 × 13?",
+        "answer": "169"
+    }
+]
