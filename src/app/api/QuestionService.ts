@@ -1,5 +1,6 @@
 "use server";
 
+import parseErrorString from "@/utils/parseErrorString";
 import wait from "@/utils/wait";
 import { PrismaClient } from "@prisma/client";
 
@@ -72,7 +73,7 @@ export async function recordAnswer(io: {
     return {
       isWin: false,
       isSolved: false,
-      error: e,
+      error: parseErrorString(e),
     };
   }
 }
