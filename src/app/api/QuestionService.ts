@@ -11,61 +11,70 @@ export async function recordAnswer(io: {
 }): Promise<{
   isWin: boolean;
   isSolved: boolean;
+  error?: any;
 }> {
-  let prisma = new PrismaClient();
-  let solvedAt = new Date(io.clientTimestamp);
+  try {
+    let prisma = new PrismaClient();
+    let solvedAt = new Date(io.clientTimestamp);
 
-  await prisma.$transaction(
-    async (tx) => {
-      // Lock the row by reading it within the transaction
-      const question = await tx.question.findUnique({
-        where: {
-          id: io.questionId,
-        },
-      });
+    await prisma.$transaction(
+      async (tx) => {
+        // Lock the row by reading it within the transaction
+        const question = await tx.question.findUnique({
+          where: {
+            id: io.questionId,
+          },
+        });
 
-      if (!question) {
-        throw new Error("Question not found");
+        if (!question) {
+          throw new Error("Question not found");
+        }
+
+        if (question.answer !== io.answer) {
+          throw new Error("Incorrect answer");
+        }
+
+        // Do not update the question if it was already solved by someone else before current time
+        if (question.solved_at && question.solved_at < solvedAt) {
+          return;
+        }
+
+        // Update the question as solved
+        await tx.question.update({
+          where: {
+            id: io.questionId,
+          },
+          data: {
+            solved_at: solvedAt,
+            solved_by: io.userId,
+          },
+        });
+      },
+      {
+        isolationLevel: "Serializable", // Ensures strict read/write isolation
+        maxWait: 10000,
+        timeout: 20000,
       }
+    );
 
-      if (question.answer !== io.answer) {
-        throw new Error("Incorrect answer");
-      }
+    // Fetch the question again to get the updated solved_by
+    const question = await prisma.question.findUniqueOrThrow({
+      where: {
+        id: io.questionId,
+      },
+    });
 
-      // Do not update the question if it was already solved by someone else before current time
-      if (question.solved_at && question.solved_at < solvedAt) {
-        return;
-      }
-
-      // Update the question as solved
-      await tx.question.update({
-        where: {
-          id: io.questionId,
-        },
-        data: {
-          solved_at: solvedAt,
-          solved_by: io.userId,
-        },
-      });
-    },
-    {
-      isolationLevel: "Serializable", // Ensures strict read/write isolation
-      maxWait: 10000,
-      timeout: 20000,
-    }
-  );
-
-  // Fetch the question again to get the updated solved_by
-  const question = await prisma.question.findUniqueOrThrow({
-    where: {
-      id: io.questionId,
-    },
-  });
-
-  return {
-    isWin: question.solved_by === io.userId,
-    isSolved: question.solved_at !== null,
-  };
+    return {
+      isWin: question.solved_by === io.userId,
+      isSolved: question.solved_at !== null,
+    };
+  } catch (e) {
+    return {
+      isWin: false,
+      isSolved: false,
+      error: e,
+    };
+  }
 }
 
 export async function getQuestion(): Promise<{ question: string; id: string }> {
@@ -130,6 +139,5 @@ export async function getLeaderboard() {
     take: 10,
   });
 
-  return leaderboard
+  return leaderboard;
 }
-

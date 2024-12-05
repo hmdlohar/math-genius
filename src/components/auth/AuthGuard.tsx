@@ -6,7 +6,7 @@ import { useAuth } from "./AuthContext";
 
 export default function AuthGuard({ children }: { children: React.ReactNode }) {
     const { username, setUsername } = useAuth();
-    console.log("xx username", username);
+    
     if (username === null) {
         return <div className="p-8 flex justify-center">
             <Loading />
@@ -28,7 +28,6 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
                         onClick={() => {
                             const input = document.getElementById("username-input") as HTMLInputElement;
                             if (input.value) {
-                                console.log("xx Setting username to", input.value);
                                 setUsername(input.value);
                             }
                         }}

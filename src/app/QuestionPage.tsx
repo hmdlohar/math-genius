@@ -32,10 +32,12 @@ export default function QuestionPage() {
       userId: username || "",
       clientTimestamp: Date.now(),
     });
+    if (result.error) {
+      throw result.error;
+    }
 
     return result;
   });
-  
 
   return (
     <>

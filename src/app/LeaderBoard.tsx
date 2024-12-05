@@ -8,7 +8,7 @@ export default function LeaderBoard() {
     },
     { fetchOnMount: true }
   );
-  console.log(leaderboard);
+
   return (
     <div>
       <div className="mt-8">
